@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  #devise_for :users
 
   namespace :api do
     post 'login', to: 'sessions#login'
@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :registrations, only: [:create]
 
     resources :users, only: [:index]
+
+    resources :tracks
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

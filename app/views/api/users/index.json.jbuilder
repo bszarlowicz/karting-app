@@ -1,6 +1,10 @@
 json.users(@users) do |i|
   json.id i.id
   json.email i.email
+  json.first_name i.first_name
+  json.last_name i.last_name
+  json.birthdate i.birthdate
+  json.role_mask i.role_mask
   json.created_at i.created_at
 end
 
