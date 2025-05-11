@@ -5,7 +5,7 @@ class Api::RegistrationsController < ApplicationController
     user = User.new(user_params)
     if user.save
       user.set_token
-      render json: { token: user.token }, status: :created
+      render json: { token: user.token, role_mask: user.role_mask }, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end

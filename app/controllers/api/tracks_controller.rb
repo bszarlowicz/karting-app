@@ -8,7 +8,7 @@ class Api::TracksController < ApplicationController
     @tracks = @search.result(distinct: true).page(params[:page])
 
     if @tracks
-      render 'tracks/index'
+      render json: @tracks
     else
       render json: @tracks.errors, status: :bad_request
     end
@@ -16,7 +16,13 @@ class Api::TracksController < ApplicationController
   end
 
   def show
-    render json: @track, status: :ok
+    @track = Track.find_by(id: params[:id])
+
+    if @track
+      render json: @track, status: :ok
+    else
+      render json: { error: 'Track not found' }, status: :not_found
+    end
   end
 
   def create
@@ -38,9 +44,15 @@ class Api::TracksController < ApplicationController
   end
 
   def destroy
-    @track.destroy
-    head :no_content
-  end
+    @track = Track.find_by(id: params[:id])
+  
+    if @track
+      @track.destroy
+      head :no_content
+    else
+      render json: { error: "Nie znaleziono toru" }, status: :not_found
+    end
+  end    
 
   private
 

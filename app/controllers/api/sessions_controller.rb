@@ -6,7 +6,7 @@ class Api::SessionsController < ApplicationController
 
     if user&.valid_password?(login_params[:password])
       user.set_token
-      render json: { status: "Login successfull", token: user.token }, status: :ok
+      render json: { status: "Login successfull", token: user.token, role_mask: user.role_mask }, status: :ok
     else
       render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
