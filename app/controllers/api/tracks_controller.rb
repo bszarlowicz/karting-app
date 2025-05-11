@@ -1,5 +1,5 @@
 class Api::TracksController < ApplicationController
-  before_action :set_track, only: [:show, :update, :destroy]
+  load_and_authorize_resource
 
   def index
     tracks = Track.all
@@ -43,12 +43,6 @@ class Api::TracksController < ApplicationController
   end
 
   private
-
-  def set_track
-    @track = Track.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "Track not found" }, status: :not_found
-  end
 
   def track_params
     params.require(:track).permit(:name, :location, :length_meters, :is_indoor)

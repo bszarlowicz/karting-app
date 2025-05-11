@@ -3,6 +3,10 @@ class ApplicationController < ActionController::API
 
   append_view_path "#{Rails.root}/app/views/api/"
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: { error: exception.message }, status: :forbidden
+  end
+
   private
 
   def authenticate_user!
@@ -17,5 +21,9 @@ class ApplicationController < ActionController::API
     end
   rescue JWT::DecodeError
     render json: { error: 'Invalid token' }, status: :unauthorized
+  end
+
+  def current_user
+    @current_user
   end
 end

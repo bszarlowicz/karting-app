@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
     resources :users, only: [:index]
 
-    resources :tracks
+    resources :tracks do
+      resources :races, shallow: true do
+        resources :laps, shallow: true
+      end
+    end
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
