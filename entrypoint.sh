@@ -10,6 +10,9 @@ rm -f /app/tmp/pids/server.pid
 #   sleep 2
 # done
 
+echo "Running bundle install..."
+bundle check || bundle install
+
 # Wykonanie migracji bazy danych
 echo "Running database migrations..."
 bundle exec rails db:migrate

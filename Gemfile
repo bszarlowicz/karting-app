@@ -52,3 +52,4 @@ gem "jbuilder"
 gem "ransack"
 gem "kaminari"
 gem "cancancan"
+gem 'rack-cors'
