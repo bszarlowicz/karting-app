@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_DATABASE: karting-app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # command: --default-authentication-plugin=mysql_native_password
+
+  rails-app:
+    build: .
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: karting-app
+      RAILS_ENV: development
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  bundle_cache:
