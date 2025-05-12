@@ -8,7 +8,7 @@ class Api::TracksController < ApplicationController
     @tracks = @search.result(distinct: true).page(params[:page])
 
     if @tracks
-      render json: @tracks
+      render 'tracks/index'
     else
       render json: @tracks.errors, status: :bad_request
     end

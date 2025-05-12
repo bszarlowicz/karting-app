@@ -6,7 +6,7 @@ class Api::UsersController < ApplicationController
     @users = @search.result(distinct: true).page(params[:page])
 
     if @users
-      render json: @users
+      render 'users/index'
     else
       render json: @users.errors, status: :bad_request
     end
