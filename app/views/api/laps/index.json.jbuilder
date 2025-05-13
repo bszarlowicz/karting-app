@@ -15,6 +15,7 @@ end
 
 json.laps(@laps) do |i|
   json.id i.id
+  json.username i.user.name
   json.user_id i.user_id
   json.race_id i.race_id
   json.lap_number i.lap_number
