@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
     resources :registrations, only: [:create]
 
-    resources :users, only: [:index]
+    resources :users do
+      member do
+        get :laps
+      end
+    end
 
     resources :tracks do
       resources :races, shallow: true do

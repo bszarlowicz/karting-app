@@ -10,6 +10,7 @@ class Ability
       can [:show], Lap, user_id: user.id
       can [:index, :show], Race
       can [:index, :show], Track
+      can :manage, User, id: user.id
 
       if user.admin?
         can :manage, :all
