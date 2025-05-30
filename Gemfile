@@ -49,6 +49,9 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'simplecov', require: false
+  gem 'rswag-api'   # serwuje /api-docs
+  gem 'rswag-ui'    # wbudowany Swagger UI
+  gem 'rswag-specs' # generator specyfikacji z testów
 end
 
 gem "devise"
