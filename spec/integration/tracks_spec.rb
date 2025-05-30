@@ -1,12 +1,16 @@
+# frozen_string_literal: true
 require 'swagger_helper'
 
-RSpec.describe 'api/tracks', type: :request do
-  path '/api/tracks' do
+RSpec.describe 'api/tracks', type: :request, swagger_doc: 'v1/swagger.yaml' do
+  let(:user) { User.create!(email: 'api@user.com', password: 'Password.123') }
+  let(:Authorization) { "Bearer #{JWT.encode({ user_id: user.id }, Rails.application.secret_key_base)}" }
 
+  path '/api/tracks' do
     get 'List all tracks' do
       tags 'Tracks'
       produces 'application/json'
-
+      security [bearerAuth: []]
+        
       response '200', 'tracks listed' do
         schema type: :array, items: {
           type: :object,
@@ -20,7 +24,7 @@ RSpec.describe 'api/tracks', type: :request do
         }
 
         before do
-          Track.create!(name: "Tor Kraków", location: "Kraków", length_meters: 600, is_indoor: false)
+          Track.create!(name: 'Tor Kraków', location: 'Kraków', length_meters: 600, is_indoor: false)
         end
 
         run_test!
@@ -30,6 +34,8 @@ RSpec.describe 'api/tracks', type: :request do
     post 'Create a track' do
       tags 'Tracks'
       consumes 'application/json'
+      security [bearerAuth: []]
+
       parameter name: :track, in: :body, schema: {
         type: :object,
         properties: {
@@ -50,7 +56,6 @@ RSpec.describe 'api/tracks', type: :request do
             is_indoor: true
           }
         end
-
         run_test!
       end
 
@@ -62,14 +67,16 @@ RSpec.describe 'api/tracks', type: :request do
   end
 
   path '/api/tracks/{id}' do
-    parameter name: :id, in: :path, type: :string
+
+    parameter name: :id, in: :path, type: :string, required: true
 
     get 'Show a track' do
+      security [bearerAuth: []]
       tags 'Tracks'
       produces 'application/json'
 
       response '200', 'track found' do
-        let(:id) { Track.create!(name: "Test Track", location: "Test City", length_meters: 400, is_indoor: false).id }
+        let(:id) { Track.create!(name: 'Test Track', location: 'Test City', length_meters: 400, is_indoor: false).id }
         run_test!
       end
 
@@ -82,6 +89,7 @@ RSpec.describe 'api/tracks', type: :request do
     put 'Update a track' do
       tags 'Tracks'
       consumes 'application/json'
+      security [bearerAuth: []]  
       parameter name: :track, in: :body, schema: {
         type: :object,
         properties: {
@@ -93,17 +101,18 @@ RSpec.describe 'api/tracks', type: :request do
       }
 
       response '200', 'track updated' do
-        let(:id) { Track.create!(name: "Old Name", location: "Old City", length_meters: 350, is_indoor: false).id }
+        let(:id) { Track.create!(name: 'Old Name', location: 'Old City', length_meters: 350, is_indoor: false).id }
         let(:track) { { name: 'New Name' } }
         run_test!
       end
     end
 
     delete 'Delete a track' do
+      security [bearerAuth: []]  
       tags 'Tracks'
 
       response '204', 'track deleted' do
-        let(:id) { Track.create!(name: "Delete Track", location: "Delete City", length_meters: 450, is_indoor: true).id }
+        let(:id) { Track.create!(name: 'Delete Track', location: 'Delete City', length_meters: 450, is_indoor: true).id }
         run_test!
       end
 

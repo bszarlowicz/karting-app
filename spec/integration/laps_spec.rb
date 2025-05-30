@@ -1,10 +1,15 @@
 require 'swagger_helper'
-RSpec.describe 'api/laps', type: :request do
+RSpec.describe 'api/laps', type: :request, swagger_doc: 'v1/swagger.yaml' do
+    let(:user) { User.create!(email: 'api@user.com', password: 'Password.123') }
+    let(:Authorization) { "Bearer #{JWT.encode({ user_id: user.id }, Rails.application.secret_key_base)}" }
+
+
 describe 'Laps API' do
   path '/api/races/{race_id}/laps' do
     get 'Lists all laps for a race' do
       tags 'Laps'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :race_id, in: :path, type: :string
 
       response '200', 'laps listed' do
@@ -33,6 +38,7 @@ describe 'Laps API' do
     post 'Creates a lap for a race' do
       tags 'Laps'
       consumes 'application/json'
+      security [bearerAuth: []]
       parameter name: :race_id, in: :path, type: :string
       parameter name: :lap, in: :body, schema: {
         type: :object,
@@ -69,6 +75,7 @@ describe 'Laps API' do
     get 'Retrieves a lap' do
       tags 'Laps'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string
 
       response '200', 'lap found' do
@@ -85,6 +92,7 @@ describe 'Laps API' do
     patch 'Updates a lap' do
       tags 'Laps'
       consumes 'application/json'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string
       parameter name: :lap, in: :body, schema: {
         type: :object,
@@ -109,6 +117,7 @@ describe 'Laps API' do
 
     delete 'Deletes a lap' do
       tags 'Laps'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string
 
       response '204', 'lap deleted' do

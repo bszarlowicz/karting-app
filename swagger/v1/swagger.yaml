@@ -9,6 +9,8 @@ paths:
       summary: Lists all laps for a race
       tags:
       - Laps
+      security:
+      - bearerAuth: []
       parameters:
       - name: race_id
         in: path
@@ -45,6 +47,8 @@ paths:
       summary: Creates a lap for a race
       tags:
       - Laps
+      security:
+      - bearerAuth: []
       parameters:
       - name: race_id
         in: path
@@ -85,6 +89,8 @@ paths:
       summary: Retrieves a lap
       tags:
       - Laps
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -100,6 +106,8 @@ paths:
       summary: Updates a lap
       tags:
       - Laps
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -126,6 +134,8 @@ paths:
       summary: Deletes a lap
       tags:
       - Laps
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -140,6 +150,8 @@ paths:
       summary: Lista wyścigów dla toru
       tags:
       - Races
+      security:
+      - bearerAuth: []
       parameters:
       - name: track_id
         in: path
@@ -156,6 +168,8 @@ paths:
       summary: Tworzy nowy wyścig
       tags:
       - Races
+      security:
+      - bearerAuth: []
       parameters:
       - name: track_id
         in: path
@@ -191,6 +205,8 @@ paths:
       summary: Pobiera pojedynczy wyścig
       tags:
       - Races
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -207,6 +223,8 @@ paths:
       summary: Aktualizuje wyścig
       tags:
       - Races
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -235,6 +253,8 @@ paths:
       summary: Usuwa wyścig
       tags:
       - Races
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -247,7 +267,7 @@ paths:
           description: wyścig usunięty
         '404':
           description: wyścig nie znaleziony
-  "/api/sessions/login":
+  "/api/login":
     post:
       summary: Log in a user
       tags:
@@ -271,7 +291,7 @@ paths:
                   type: string
                 password:
                   type: string
-  "/api/sessions/logout":
+  "/api/logout":
     delete:
       summary: Log out a user
       tags:
@@ -288,6 +308,8 @@ paths:
       summary: List all tracks
       tags:
       - Tracks
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: tracks listed
@@ -312,6 +334,8 @@ paths:
       summary: Create a track
       tags:
       - Tracks
+      security:
+      - bearerAuth: []
       parameters: []
       responses:
         '201':
@@ -346,6 +370,8 @@ paths:
         type: string
     get:
       summary: Show a track
+      security:
+      - bearerAuth: []
       tags:
       - Tracks
       responses:
@@ -357,6 +383,8 @@ paths:
       summary: Update a track
       tags:
       - Tracks
+      security:
+      - bearerAuth: []
       parameters: []
       responses:
         '200':
@@ -377,6 +405,8 @@ paths:
                   type: boolean
     delete:
       summary: Delete a track
+      security:
+      - bearerAuth: []
       tags:
       - Tracks
       responses:
@@ -389,6 +419,8 @@ paths:
       summary: List all users
       tags:
       - Users
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: users listed
@@ -416,6 +448,8 @@ paths:
       summary: Create a user
       tags:
       - Users
+      security:
+      - bearerAuth: []
       parameters: []
       responses:
         '201':
@@ -461,6 +495,8 @@ paths:
       summary: Show user details
       tags:
       - Users
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: user found
@@ -470,6 +506,8 @@ paths:
       summary: Update a user
       tags:
       - Users
+      security:
+      - bearerAuth: []
       parameters: []
       responses:
         '200':
@@ -499,16 +537,18 @@ paths:
       summary: Delete a user
       tags:
       - Users
+      security:
+      - bearerAuth: []
       responses:
         '204':
           description: user deleted
         '404':
           description: user not found
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: 127.0.0.1:3000
 components:
   securitySchemes:
     bearerAuth:

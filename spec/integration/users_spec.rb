@@ -1,10 +1,14 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/users', type: :request do
+RSpec.describe 'api/users', type: :request, swagger_doc: 'v1/swagger.yaml' do
+  let(:user) { User.create!(email: 'api@user.com', password: 'Password.123') }
+  let(:Authorization) { "Bearer #{JWT.encode({ user_id: user.id }, Rails.application.secret_key_base)}" }
+
   path '/api/users' do
     get 'List all users' do
       tags 'Users'
       produces 'application/json'
+      security [bearerAuth: []]
 
       response '200', 'users listed' do
         schema type: :array, items: {
@@ -38,6 +42,7 @@ RSpec.describe 'api/users', type: :request do
     post 'Create a user' do
       tags 'Users'
       consumes 'application/json'
+      security [bearerAuth: []]
       parameter name: :user, in: :body, schema: {
         type: :object,
         required: %w[email first_name last_name birthdate password password_confirmation],
@@ -81,7 +86,7 @@ RSpec.describe 'api/users', type: :request do
     get 'Show user details' do
       tags 'Users'
       produces 'application/json'
-
+      security [bearerAuth: []]
       response '200', 'user found' do
         let(:id) do
           User.create!(
@@ -107,6 +112,7 @@ RSpec.describe 'api/users', type: :request do
     put 'Update a user' do
       tags 'Users'
       consumes 'application/json'
+      security [bearerAuth: []]
       parameter name: :user, in: :body, schema: {
         type: :object,
         properties: {
@@ -141,7 +147,7 @@ RSpec.describe 'api/users', type: :request do
 
     delete 'Delete a user' do
       tags 'Users'
-
+      security [bearerAuth: []]
       response '204', 'user deleted' do
         let(:id) do
           User.create!(

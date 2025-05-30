@@ -1,11 +1,15 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/races', type: :request do
+RSpec.describe 'api/races', type: :request, swagger_doc: 'v1/swagger.yaml' do
+  let(:user) { User.create!(email: 'api@user.com', password: 'Password.123') }
+  let(:Authorization) { "Bearer #{JWT.encode({ user_id: user.id }, Rails.application.secret_key_base)}" }
+
   path '/api/tracks/{track_id}/races' do
 
     get 'Lista wyścigów dla toru' do
       tags 'Races'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :track_id, in: :path, type: :string, description: 'ID toru'
 
       response '200', 'lista wyścigów znaleziona' do
@@ -24,6 +28,7 @@ RSpec.describe 'api/races', type: :request do
       tags 'Races'
       consumes 'application/json'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :track_id, in: :path, type: :string, description: 'ID toru'
       parameter name: :race, in: :body, schema: {
         type: :object,
@@ -56,6 +61,7 @@ RSpec.describe 'api/races', type: :request do
     get 'Pobiera pojedynczy wyścig' do
       tags 'Races'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string, description: 'ID wyścigu'
 
       response '200', 'wyścig znaleziony' do
@@ -74,6 +80,7 @@ RSpec.describe 'api/races', type: :request do
       tags 'Races'
       consumes 'application/json'
       produces 'application/json'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string, description: 'ID wyścigu'
       parameter name: :race, in: :body, schema: {
         type: :object,
@@ -94,6 +101,7 @@ RSpec.describe 'api/races', type: :request do
 
     delete 'Usuwa wyścig' do
       tags 'Races'
+      security [bearerAuth: []]
       parameter name: :id, in: :path, type: :string, description: 'ID wyścigu'
 
       response '204', 'wyścig usunięty' do

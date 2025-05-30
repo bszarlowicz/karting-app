@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/sessions', type: :request do
-  path '/api/sessions/login' do
+  path '/api/login' do
     post 'Log in a user' do
       tags 'Sessions'
       consumes 'application/json'
@@ -44,7 +44,7 @@ RSpec.describe 'api/sessions', type: :request do
     end
   end
 
-  path '/api/sessions/logout' do
+  path '/api/logout' do
     delete 'Log out a user' do
       tags 'Sessions'
       security [bearerAuth: []]
